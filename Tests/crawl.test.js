@@ -1,33 +1,37 @@
 require('dotenv').config();
 const { normalizeURL, getURLsfromHTML } = require('../Crawler/crawl');
 const { test, expect } = require('@jest/globals');
-const { home, baseUrl, inputBaseURL } = require('../Utils/Utils.js');
+const {
+  home,
+  baseDomain,
+  inputBaseURL,
+} = require('../Utils/Utils.js');
 
 test('normalizeURL remove protocol', () => {
   const input = `${home}/pathways`;
   const output = normalizeURL(input);
-  const expectedOutput = `${baseUrl}/pathways`;
+  const expectedOutput = `${baseDomain}/pathways`;
   expect(output).toEqual(expectedOutput);
 });
 
 test('normalizeURL remove trailing slash', () => {
   const input = `${home}/projects/`;
   const output = normalizeURL(input);
-  const expectedOutput = `${baseUrl}/projects`;
+  const expectedOutput = `${baseDomain}/projects`;
   expect(output).toEqual(expectedOutput);
 });
 
 test('normalizeURL capitals', () => {
   const input = `${home}/contact`;
   const output = normalizeURL(input);
-  const expectedOutput = `${baseUrl}/contact`;
+  const expectedOutput = `${baseDomain}/contact`;
   expect(output).toEqual(expectedOutput);
 });
 
 test('normalizeURL remove HTTP', () => {
   const input = `${home}/contact`;
   const output = normalizeURL(input);
-  const expectedOutput = `${baseUrl}/contact`;
+  const expectedOutput = `${baseDomain}/contact`;
   expect(output).toEqual(expectedOutput);
 });
 

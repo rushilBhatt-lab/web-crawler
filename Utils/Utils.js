@@ -1,9 +1,9 @@
-const baseUrl = process.env.SITE_BASE_URL;
+const baseDomain = process.env.SITE_DOMAIN;
 const home = process.env.CRAWL_PATH_HOME;
-const inputBaseURL = `${baseUrl}`;
+const inputBaseURL = `${home}`;
 
 module.exports = {
-  baseUrl,
+  baseDomain,
   home,
   inputBaseURL,
 };
