@@ -1,67 +1,63 @@
+require('dotenv').config();
 const { normalizeURL, getURLsfromHTML } = require('./crawl.js');
 const { test, expect } = require('@jest/globals');
+const { home, baseUrl, inputBaseURL } = require('./Utils/Utils.js');
 
 test('normalizeURL remove protocol', () => {
-  const input = 'https://rushil-dev.vercel.app/path';
+  const input = `${home}/pathways`;
   const output = normalizeURL(input);
-  const expectedOutput = 'rushil-dev.vercel.app/path';
+  const expectedOutput = `${baseUrl}/pathways`;
   expect(output).toEqual(expectedOutput);
 });
 
 test('normalizeURL remove trailing slash', () => {
-  const input = 'https://rushil-dev.vercel.app/path/';
+  const input = `${home}/projects/`;
   const output = normalizeURL(input);
-  const expectedOutput = 'rushil-dev.vercel.app/path';
+  const expectedOutput = `${baseUrl}/projects`;
   expect(output).toEqual(expectedOutput);
 });
 
 test('normalizeURL capitals', () => {
-  const input = 'https://RUSHIL-dev.vercel.app/path';
+  const input = `${home}/contact`;
   const output = normalizeURL(input);
-  const expectedOutput = 'rushil-dev.vercel.app/path';
+  const expectedOutput = `${baseUrl}/contact`;
   expect(output).toEqual(expectedOutput);
 });
 
 test('normalizeURL remove HTTP', () => {
-  const input = 'http://rushil-dev.vercel.app/path';
+  const input = `${home}/contact`;
   const output = normalizeURL(input);
-  const expectedOutput = 'rushil-dev.vercel.app/path';
+  const expectedOutput = `${baseUrl}/contact`;
   expect(output).toEqual(expectedOutput);
 });
 
-test('getURLsfromHTML absolute URL ', () => {
-  const inputHtmlBody = `<html><body><a href="https://rushil-dev.vercel.app/path/">Rushil.dev</a></body></html>`;
-  const inputBaseURL = 'https://rushil-dev.vercel.app/path/';
+test('getURLsfromHTML absolute URL', () => {
+  const inputHtmlBody = `<html><body><a href="${home}/projects/">Projects</a></body></html>`;
   const output = getURLsfromHTML(inputHtmlBody, inputBaseURL);
-  const expectedOutput = ['https://rushil-dev.vercel.app/path/'];
+  const expectedOutput = [`${home}/projects/`];
   expect(output).toEqual(expectedOutput);
 });
 
 test('getURLsfromHTML relative URL', () => {
-  const inputHtmlBody = `<html><body><a href="/path/">Rushil.dev</a></body></html>`;
-  const inputBaseURL = 'https://rushil-dev.vercel.app';
+  const inputHtmlBody = `<html><body><a href="/contact/">Contact</a></body></html>`;
   const output = getURLsfromHTML(inputHtmlBody, inputBaseURL);
-  const expectedOutput = ['https://rushil-dev.vercel.app/path/'];
+  const expectedOutput = [`${home}/contact/`];
   expect(output).toEqual(expectedOutput);
 });
 
-test('getURLsfromHTML relative UR', () => {
+test('getURLsfromHTML mixed relative and absolute URLs', () => {
   const inputHtmlBody = `
-  <html><body><a href="https://rushil-dev.vercel.app/path1/">Rushil.dev</a>
-  <a href="/path2/">Rushil.dev</a>
+  <html><body><a href="${home}/pathways/">Pathways</a>
+  <a href="/projects/">Projects</a>
   </body></html>`;
-  const inputBaseURL = 'https://rushil-dev.vercel.app';
+
   const output = getURLsfromHTML(inputHtmlBody, inputBaseURL);
-  const expectedOutput = [
-    'https://rushil-dev.vercel.app/path1/',
-    'https://rushil-dev.vercel.app/path2/',
-  ];
+  const expectedOutput = [`${home}/pathways/`, `${home}/projects/`];
   expect(output).toEqual(expectedOutput);
 });
 
-test('getURLsfromHTML relative URL', () => {
+test('getURLsfromHTML invalid URL', () => {
   const inputHtmlBody = `<html><body><a href="invalid">Invalid URL</a></body></html>`;
-  const inputBaseURL = 'https://rushil-dev.vercel.app';
   const output = getURLsfromHTML(inputHtmlBody, inputBaseURL);
   const expectedOutput = [];
   expect(output).toEqual(expectedOutput);

@@ -12,7 +12,6 @@ async function crawlPage(baseURL, currentURL, pages) {
     return pages;
   }
   pages[normalizedCurrentURL] = 1;
-  console.log(`actively crawling: ${currentURL}`);
 
   try {
     const response = await fetch(currentURL);
@@ -24,9 +23,9 @@ async function crawlPage(baseURL, currentURL, pages) {
     }
 
     const contentType = response.headers.get('content-type');
-    if (contentType?.includes('text/html')) {
+    if (!contentType || !contentType.includes('text/html')) {
       console.log(
-        `non html response, content type: ${response.status}, on page: ${currentURL}`
+        `non-html response, content type: ${contentType}, on page: ${currentURL}`
       );
       return pages;
     }
