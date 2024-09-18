@@ -1,7 +1,7 @@
 require('dotenv').config();
-const { sortPages } = require('./report.js');
+const { sortPages } = require('../Crawler/report');
 const { test, expect } = require('@jest/globals');
-const { home, baseUrl, inputBaseURL } = require('./Utils/Utils.js');
+const { home, baseUrl, inputBaseURL } = require('../Utils/Utils');
 
 test('sortPages 2 pages', () => {
   const input = {

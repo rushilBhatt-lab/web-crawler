@@ -1,7 +1,7 @@
 require('dotenv').config();
-const { normalizeURL, getURLsfromHTML } = require('./crawl.js');
+const { normalizeURL, getURLsfromHTML } = require('../Crawler/crawl');
 const { test, expect } = require('@jest/globals');
-const { home, baseUrl, inputBaseURL } = require('./Utils/Utils.js');
+const { home, baseUrl, inputBaseURL } = require('../Utils/Utils.js');
 
 test('normalizeURL remove protocol', () => {
   const input = `${home}/pathways`;
